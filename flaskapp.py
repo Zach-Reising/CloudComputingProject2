@@ -44,6 +44,7 @@ def index():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
+        print(request.form)
         username = request.form['username']
         password = request.form['password']
         email = request.form['email']
