@@ -80,7 +80,6 @@ def profile(username):
             content = file.read()
             word_count = len(content.split())
     
-    print(f"User: {user}, Word Count: {word_count}")
     return render_template('profile.html', user=user, word_count=word_count)
 
 @app.route('/logout')
