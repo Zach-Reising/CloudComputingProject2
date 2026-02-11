@@ -6,12 +6,9 @@ app = Flask(__name__)
 
 DATABASE_NAME = 'reisinzsdatabase.db'
 
-# Upload folder setup
+# Upload folder
 UPLOAD_FOLDER = 'uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-
-if not os.path.exists(UPLOAD_FOLDER):
-    os.makedirs(UPLOAD_FOLDER)
 
 # SQLite setup
 conn = sqlite3.connect(DATABASE_NAME)
