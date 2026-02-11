@@ -4,7 +4,7 @@ import sqlite3
 
 app = Flask(__name__)
 
-DATABASE_NAME = 'reisinzsdatabase.db'
+DATABASE_NAME = '/home/ubuntu/CloudComputingProject2/reisinzsdatabase.db'
 
 # Upload folder
 UPLOAD_FOLDER = 'uploads'
