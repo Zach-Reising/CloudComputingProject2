@@ -1,18 +1,18 @@
 import sys
 import os
+import site
 
-# Path to your project
+# Project path
 project_home = '/home/ubuntu/CloudComputingProject2'
 if project_home not in sys.path:
     sys.path.insert(0, project_home)
 
-# Path to the virtual environment site-packages
-venv_path = '/home/ubuntu/CloudComputingProject2/venv/lib/python3.11/site-packages'
-if venv_path not in sys.path:
-    sys.path.insert(0, venv_path)
+# Virtualenv site-packages
+venv_site = '/home/ubuntu/CloudComputingProject2/venv/lib/python3.12/site-packages'
+site.addsitedir(venv_site)
 
-# Set environment variable for Flask
-os.environ['FLASK_APP'] = 'flaskapp'
+# Set environment (optional)
+os.environ['FLASK_ENV'] = 'production'
 
 # Import Flask app
 from flaskapp import app as application
