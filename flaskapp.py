@@ -41,28 +41,31 @@ def sqlite3_connect(query: str, fetch_one: bool = False, fetch_all: bool = False
 def index():
     return render_template('register.html')
 
-@app.route('/register', methods=['POST'])
+@app.route('/register', methods=['GET', 'POST'])
 def register():
-    username = request.form['username']
-    password = request.form['password']
-    email = request.form['email']
-    first_name = request.form['first_name']
-    last_name = request.form['last_name']
-    address = request.form['address']
-    city = request.form['city']
-    state = request.form['state']
-    zipcode = request.form['zipcode']
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        email = request.form['email']
+        first_name = request.form['first_name']
+        last_name = request.form['last_name']
+        address = request.form['address']
+        city = request.form['city']
+        state = request.form['state']
+        zipcode = request.form['zipcode']
 
-    file = request.files['limmerick_file']
+        file = request.files['limmerick_file']
 
-    if file:
-        filename = f"{username}_Limmerick.txt"
-        filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-        file.save(filepath)
+        if file:
+            filename = f"{username}_Limmerick.txt"
+            filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            file.save(filepath)
 
-    query = f"INSERT INTO users (username, password, email, first_name, last_name, address, city, state, zipcode) VALUES ('{username}', '{password}', '{email}', '{first_name}', '{last_name}', '{address}', '{city}', '{state}', '{zipcode}')"
-    sqlite3_connect(query)
-    return redirect(url_for('profile', username=username))
+        query = f"INSERT INTO users (username, password, email, first_name, last_name, address, city, state, zipcode) VALUES ('{username}', '{password}', '{email}', '{first_name}', '{last_name}', '{address}', '{city}', '{state}', '{zipcode}')"
+        sqlite3_connect(query)
+        return redirect(url_for('profile', username=username))
+
+    return render_template('register.html')
 
 @app.route('/profile/<username>')
 def profile(username):
@@ -82,16 +85,18 @@ def profile(username):
 def logout():
     return redirect(url_for('login'))
 
-@app.route('/login', methods=['POST'])
+@app.route('/login', methods=['GET', 'POST'])
 def login():
-    username = request.form['username']
-    password = request.form['password']
-    query = f"SELECT * FROM users WHERE username='{username}' AND password='{password}'"
-    user = sqlite3_connect(query, fetch_one=True)
-    if user:
-        return redirect(url_for('profile', username=username))
-    else:
-        return "Invalid credentials. Please try again."
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        query = f"SELECT * FROM users WHERE username='{username}' AND password='{password}'"
+        user = sqlite3_connect(query, fetch_one=True)
+        if user:
+            return redirect(url_for('profile', username=username))
+        else:
+            return "Invalid credentials. Please try again."
+    return render_template('login.html')
     
 @app.route('/download/<username>')
 def download(username):
