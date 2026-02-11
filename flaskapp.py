@@ -44,7 +44,6 @@ def index():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
-        print(request.form)
         username = request.form['username']
         password = request.form['password']
         email = request.form['email']
@@ -80,6 +79,8 @@ def profile(username):
         with open(filepath, 'r') as file:
             content = file.read()
             word_count = len(content.split())
+    
+    print(f"User: {user}, Word Count: {word_count}")
     return render_template('profile.html', user=user, word_count=word_count)
 
 @app.route('/logout')
