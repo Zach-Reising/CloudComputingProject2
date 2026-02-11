@@ -72,6 +72,8 @@ def profile(username):
     query = f"SELECT * FROM users WHERE username='{username}'"
     user = sqlite3_connect(query, fetch_one=True)
 
+    error = request.args.get('error')
+
     filepath = os.path.join(app.config['UPLOAD_FOLDER'], f"{username}_Limmerick.txt")
 
     word_count = 0
@@ -80,7 +82,7 @@ def profile(username):
             content = file.read()
             word_count = len(content.split())
     
-    return render_template('profile.html', user=user, word_count=word_count)
+    return render_template('profile.html', user=user, word_count=word_count, error=error)
 
 @app.route('/logout')
 def logout():
@@ -102,6 +104,10 @@ def login():
 @app.route('/download/<username>')
 def download(username):
     filename = f"{username}_Limmerick.txt"
+    filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+    if not os.path.exists(filepath):
+        return redirect(url_for('profile', username=username, error="No limmerick for this user"))
+    
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename, as_attachment=True)
 
 if __name__ == '__main__':
