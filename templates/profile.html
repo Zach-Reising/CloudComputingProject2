@@ -14,6 +14,9 @@
     <a href="{{ url_for('download', username=user[0]) }}">
         <button>Download Limmerick</button>
     </a>
+    {% if error %}
+        <p style="color: red;">{{ error }}</p>
+    {% endif %}
     <button onclick="window.location.href='/logout'">Logout</button>
 </body>
 </html>
