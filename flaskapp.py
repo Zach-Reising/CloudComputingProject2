@@ -7,7 +7,8 @@ app = Flask(__name__)
 DATABASE_NAME = '/home/ubuntu/CloudComputingProject2/reisinzsdatabase.db'
 
 # Upload folder
-UPLOAD_FOLDER = 'uploads'
+BASE_DIR = '/home/ubuntu/CloudComputingProject2'
+UPLOAD_FOLDER = os.path.join(BASE_DIR, 'uploads')
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 # SQLite setup
